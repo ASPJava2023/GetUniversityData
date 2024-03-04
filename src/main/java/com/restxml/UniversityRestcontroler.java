@@ -18,16 +18,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.restxml.Exception.AppExceptionHandler;
-
 @RestController
 public class UniversityRestcontroler {
 
 	// private static final String API_URL =
 	// "http://universities.hipolabs.com/search?country=United+States";
 
-	@GetMapping("/getindiadata/{country}")
-	public String getindiadata(@PathVariable String country) throws Exception {
+	@GetMapping("/welcomemsg")
+	public String welcomemsg() {
+		return "Welcome to App to Get university details by country";
+	}
+
+	@GetMapping("/HelloAnkit")
+	public String HelloAnkit() {
+		return "My Name is Ankit";
+	}
+
+	@GetMapping("/welcomemsgbyName/{name}")
+	public String welcomemsgbyName(@PathVariable("name") String name) {
+		return name + " ,Welcome to App to Get university details by country";
+	}
+
+	@GetMapping("/getdata/{country}")
+	public List<University> getdata(@PathVariable String country) throws Exception {
 		String c = country;
 		if (c == null) {
 			throw new Exception();
@@ -58,21 +71,8 @@ public class UniversityRestcontroler {
 
 			System.out.println("The Total University :" + universityList.size());
 
-			return " Got Data of ".concat(country);
+			// return " Got Data of ".concat(country);
+			return universityList;
 		}
-	}
-
-	@GetMapping("/welcomemsg")
-	public String welcomemsg() {
-		return "Welcome to App to Get university details by country";
-	}
-
-	@GetMapping("/HelloAnkit")
-	public String HelloAnkit() {
-		return "My Name is Ankit";
-	}
-	@GetMapping("/welcomemsg/{name}")
-	public String welcomemsgbyName(@PathVariable("name") String name) {
-		return  name +" ,Welcome to App to Get university details by country";
 	}
 }
