@@ -8,6 +8,8 @@ package com.restxml;
 
 //https://www.baeldung.com/spring-rest-openapi-documentation
 
+//Live application -->https://getuniversitydata-production.up.railway.app/swagger-ui/index.html
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.restxml.Exception.AppExceptionHandler;
+
 @RestController
 public class UniversityRestcontroler {
 
@@ -23,36 +27,39 @@ public class UniversityRestcontroler {
 	// "http://universities.hipolabs.com/search?country=United+States";
 
 	@GetMapping("/getindiadata/{country}")
-	public String getindiadata(@PathVariable String country) {
-
+	public String getindiadata(@PathVariable String country) throws Exception {
 		String c = country;
-		System.out.println(c);
-		String temp_URL = "http://universities.hipolabs.com/search?country=".concat(country);
-		String API_URL = temp_URL;
-		System.out.println(temp_URL);
+		if (c == null) {
+			throw new Exception();
+		} else {
+			System.out.println(c);
+			String temp_URL = "http://universities.hipolabs.com/search?country=".concat(country);
+			String API_URL = temp_URL;
+			System.out.println(temp_URL);
 // Create a RestTemplate instance
-		RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = new RestTemplate();
 // Make the GET request and convert the response to a list of University objects
-		University[] universities = restTemplate.getForObject(API_URL, University[].class);
+			University[] universities = restTemplate.getForObject(API_URL, University[].class);
 // Convert the array to a list for easier handling
-		List<University> universityList = Arrays.asList(universities);
+			List<University> universityList = Arrays.asList(universities);
 // Print the fetched data
-		System.out.println("==============Fetched University Data:=================");
+			System.out.println("==============Fetched University Data:=================");
 // universityList.forEach(System.out::println );
-		// System.out.println("The Total University :" + universityList.size());
+			// System.out.println("The Total University :" + universityList.size());
 
-		for (University university : universityList) {
-			System.out.println("===============================================");
-			System.out.println("University/College Name:: " + university.getName());
-			System.out.println("State/Province Name::" + university.getStateprovince());
-			System.out.println("Domains ::" + university.getDomains().get(0));
-			System.out.println("Website ::" + university.getWeb_pages().get(0));
-			System.out.println("country ::" + university.getCountry());
+			for (University university : universityList) {
+				System.out.println("===============================================");
+				System.out.println("University/College Name:: " + university.getName());
+				System.out.println("State/Province Name::" + university.getStateprovince());
+				System.out.println("Domains ::" + university.getDomains().get(0));
+				System.out.println("Website ::" + university.getWeb_pages().get(0));
+				System.out.println("country ::" + university.getCountry());
+			}
+
+			System.out.println("The Total University :" + universityList.size());
+
+			return " Got Data of ".concat(country);
 		}
-
-		System.out.println("The Total University :" + universityList.size());
-
-		return " Got Data of ".concat(country);
 	}
 
 	@GetMapping("/welcomemsg")
