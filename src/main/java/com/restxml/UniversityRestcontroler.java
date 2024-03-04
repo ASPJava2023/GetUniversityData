@@ -71,4 +71,8 @@ public class UniversityRestcontroler {
 	public String HelloAnkit() {
 		return "My Name is Ankit";
 	}
+	@GetMapping("/welcomemsg/{name}")
+	public String welcomemsgbyName(@PathVariable("name") String name) {
+		return  name +" ,Welcome to App to Get university details by country";
+	}
 }
